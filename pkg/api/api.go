@@ -17,6 +17,7 @@ type Server struct {
 func NewServer(h interfaces.Handler) *Server {
 	srv := http.NewServeMux()
 	srv.HandleFunc("/hello", h.Hello)
+	srv.HandleFunc("/family", h.Family)
 
 	return &Server{
 		&http.Server{

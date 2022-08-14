@@ -11,12 +11,13 @@ import (
 	"cosmosdb-demo/pkg/handler"
 	"cosmosdb-demo/pkg/repository"
 	"cosmosdb-demo/pkg/service"
+	"github.com/Azure/azure-sdk-for-go/sdk/data/azcosmos"
 )
 
 // Injectors from wire.go:
 
-func InitializeAPI() *api.Server {
-	repo := repository.NewRepo()
+func InitializeAPI(client *azcosmos.Client) *api.Server {
+	repo := repository.NewRepo(client)
 	hello := service.NewHelloService(repo)
 	handlerApi := handler.NewHandler(hello)
 	server := api.NewServer(handlerApi)
