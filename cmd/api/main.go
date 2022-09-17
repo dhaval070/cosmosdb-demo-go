@@ -19,6 +19,9 @@ func initDB(cfg config.Config) *azcosmos.Client {
 		log.Fatal(err)
 	}
 
+	var n = 1
+	n = n
+
 	return client
 }
 
