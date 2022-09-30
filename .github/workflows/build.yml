@@ -17,9 +17,7 @@ jobs:
       - run: |
           pwd
           ls -l
-          go version &&
-          go test -v -covermod=atomic -coverprofile=coverage.out ./... &&
-          exit 0
+          go test -v -covermod=atomic -coverprofile=coverage.out ./...
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
