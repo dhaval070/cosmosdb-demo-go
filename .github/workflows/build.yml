@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 0
       - run: go build -o api -v cmd/api
       - name: test coverage
-        run: go test -v ./pkg/...
+        run: go test -v -covermode=atomic -coverprofile=coverage.out ./...
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
