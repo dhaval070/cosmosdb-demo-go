@@ -18,7 +18,7 @@ jobs:
           pwd
           ls -l
           go version &&
-          go test -covermod=atomic -coverprofile=coverage.out ./... &&
+          go test -v -covermod=atomic -coverprofile=coverage.out ./... &&
           exit 0
 
       - name: SonarCloud Scan
