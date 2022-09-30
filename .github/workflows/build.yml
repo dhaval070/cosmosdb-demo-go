@@ -10,14 +10,15 @@ jobs:
     name: SonarCloud
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/setup-go@v3
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - uses: actions/setup-go@v3
       - run: |
+          pwd
+          ls -l
           go version &&
           go test -covermod=atomic -coverprofile=coverage.out ./... &&
-          ls -lah
           exit 0
 
       - name: SonarCloud Scan
