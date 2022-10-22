@@ -3,30 +3,35 @@ package repository
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/data/azcosmos"
 	"github.com/google/wire"
 
 	"cosmosdb-demo/domain"
+	"cosmosdb-demo/pkg/logger"
 	"cosmosdb-demo/pkg/repository/interfaces"
 )
 
 type repo struct {
 	client *azcosmos.Client
+	logger.ILogger
 }
 
-func NewRepo(c *azcosmos.Client) *repo {
+func NewRepo(c *azcosmos.Client, log logger.ILogger) *repo {
 	return &repo{
-		client: c,
+		c,
+		log,
 	}
 }
 
 func (r *repo) GetFamily(id string) (*domain.Family, error) {
-	c, err := r.client.NewContainer("dhaval", "families")
+	c, err := r.client.NewContainer("ToDoList", "families")
 
 	if err != nil {
-		return nil, err
+		r.Error(err)
+		return nil, fmt.Errorf("%v", err)
 	}
 
 	pk := azcosmos.NewPartitionKeyString(id)
@@ -34,7 +39,8 @@ func (r *repo) GetFamily(id string) (*domain.Family, error) {
 	item, err := c.ReadItem(context.Background(), pk, id, nil)
 
 	if err != nil {
-		return nil, err
+		r.Error(err)
+		return nil, fmt.Errorf("%v", err)
 	}
 	log.Println(string(item.Value))
 

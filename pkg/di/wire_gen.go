@@ -9,6 +9,7 @@ package di
 import (
 	"cosmosdb-demo/pkg/api"
 	"cosmosdb-demo/pkg/handler"
+	"cosmosdb-demo/pkg/logger"
 	"cosmosdb-demo/pkg/repository"
 	"cosmosdb-demo/pkg/service"
 	"github.com/Azure/azure-sdk-for-go/sdk/data/azcosmos"
@@ -16,10 +17,10 @@ import (
 
 // Injectors from wire.go:
 
-func InitializeAPI(client *azcosmos.Client) *api.Server {
-	repo := repository.NewRepo(client)
-	hello := service.NewHelloService(repo)
-	handlerApi := handler.NewHandler(hello)
-	server := api.NewServer(handlerApi)
+func InitializeAPI(client *azcosmos.Client, log *logger.Logger) *api.Server {
+	repo := repository.NewRepo(client, log)
+	hello := service.NewHelloService(repo, log)
+	handlerHandler := handler.NewHandler(hello, log)
+	server := api.NewServer(handlerHandler)
 	return server
 }

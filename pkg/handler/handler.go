@@ -10,24 +10,30 @@ import (
 	hello "cosmosdb-demo/pkg/service"
 	service "cosmosdb-demo/pkg/service/interfaces"
 
+	"cosmosdb-demo/pkg/logger"
+
 	"github.com/google/wire"
 )
 
 type handler struct {
 	service service.Hello
+	logger.ILogger
 }
 
-func NewHandler(s service.Hello) *handler {
+func NewHandler(s service.Hello, log logger.ILogger) *handler {
 	return &handler{
 		s,
+		log,
 	}
 }
 
 func (h handler) Hello(w http.ResponseWriter, req *http.Request) {
+	h.Info("in hello")
 	io.WriteString(w, h.service.Hello())
 }
 
 func (h handler) Family(w http.ResponseWriter, req *http.Request) {
+	h.Info("in family")
 	family, err := h.service.GetFamily("AndersenFamily")
 
 	if err != nil {

@@ -2,6 +2,7 @@ package service
 
 import (
 	"cosmosdb-demo/domain"
+	"cosmosdb-demo/pkg/logger"
 	"cosmosdb-demo/pkg/repository"
 	repo "cosmosdb-demo/pkg/repository/interfaces"
 	"cosmosdb-demo/pkg/service/interfaces"
@@ -11,10 +12,11 @@ import (
 
 type hello struct {
 	repo repo.Repo
+	logger.ILogger
 }
 
-func NewHelloService(repo repo.Repo) *hello {
-	return &hello{repo}
+func NewHelloService(repo repo.Repo, log logger.ILogger) *hello {
+	return &hello{repo, log}
 }
 
 func (h *hello) Hello() string {
